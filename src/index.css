@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #020617;
+    color: #e2e8f0;
+    -webkit-tap-highlight-color: transparent;
+}
+.ambient-light {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(circle at 10% 20%, rgba(88, 28, 135, 0.4) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(13, 148, 136, 0.3) 0%, transparent 40%);
+    transform: translateZ(0);
+}
+.gento-card {
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+.gento-input {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: border-color 0.2s, background-color 0.2s;
+    color: white;
+}
+.gento-input:focus {
+    border-color: #a855f7;
+    background: rgba(0, 0, 0, 0.5);
+    outline: none;
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(51, 65, 85, 0.8); border-radius: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+.nav-item { transition: all 0.3s ease; }
+.nav-item.active {
+    background: linear-gradient(to right, #9333ea, #db2777);
+    color: white;
+    box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+    border: none;
+    font-weight: 600;
+}
+.nav-item:not(.active):hover { color: white; background: rgba(255,255,255,0.05); }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
