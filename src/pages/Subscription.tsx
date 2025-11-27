@@ -75,25 +75,27 @@ const fetchProxies = async () => {
   }
 };
 
-  const checkProxyStatus = async (proxy: ProxyItem): Promise<boolean> => {
+  const checkBatch = async (proxies: ProxyItem[]): Promise<Map<string, boolean>> => {
+      const resultsMap = new Map<string, boolean>();
+      if (proxies.length === 0) return resultsMap;
+      
+      const ipList = proxies.map(p => `${p.ip}:${p.port}`).join(',');
       try {
-          for (let i = 0; i < 2; i++) {
-              const controller = new AbortController();
-              const timeoutId = setTimeout(() => controller.abort(), 4000);
-              try {
-                  const res = await fetch(`${CONFIG.apiCheckUrl}${proxy.ip}:${proxy.port}`, { signal: controller.signal });
-                  clearTimeout(timeoutId);
-                  const data = await res.json();
-                  if ((Array.isArray(data) ? data[0] : data)?.proxyip === true) return true;
-              } catch (e) {
-                  if (i === 1) return false;
-                  await new Promise(r => setTimeout(r, 500));
-              }
-          }
-          return false;
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 15000);
+          const res = await fetch(`${CONFIG.apiCheckUrl}${ipList}`, { signal: controller.signal });
+          clearTimeout(timeoutId);
+          const data = await res.json();
+          const results = Array.isArray(data) ? data : [data];
+          
+          proxies.forEach((p, idx) => {
+              const r = results[idx];
+              resultsMap.set(`${p.ip}:${p.port}`, r?.proxyip === true);
+          });
       } catch {
-          return false;
+          proxies.forEach(p => resultsMap.set(`${p.ip}:${p.port}`, false));
       }
+      return resultsMap;
   };
 
   const handleGenerate = async (e: React.FormEvent) => {
@@ -118,11 +120,13 @@ const fetchProxies = async () => {
     if (validateProxies) {
         setValidationStatus({ total: filtered.length, current: 0, valid: 0, invalid: 0, show: true });
         const validProxies: ProxyItem[] = [];
-        const batchSize = 5;
+        const batchSize = 20;
         for (let i = 0; i < filtered.length; i += batchSize) {
             const chunk = filtered.slice(i, i + batchSize);
-            await Promise.all(chunk.map(async (p) => {
-                const ok = await checkProxyStatus(p);
+            const results = await checkBatch(chunk);
+            
+            chunk.forEach(p => {
+                const ok = results.get(`${p.ip}:${p.port}`) || false;
                 setValidationStatus(prev => ({
                     ...prev,
                     current: prev.current + 1,
@@ -130,7 +134,7 @@ const fetchProxies = async () => {
                     invalid: prev.invalid + (ok ? 0 : 1)
                 }));
                 if (ok) validProxies.push(p);
-            }));
+            });
         }
         filtered = validProxies;
     }

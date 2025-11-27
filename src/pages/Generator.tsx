@@ -58,38 +58,67 @@ const Generator: React.FC = () => {
   const processCheckQueue = useCallback(async () => {
     if (activeChecks.current >= CONCURRENCY_LIMIT || checkQueue.current.length === 0 || !mountedRef.current) return;
 
-    const proxy = checkQueue.current.shift();
-    if (!proxy) return;
+    const batchSize = 10;
+    const proxies = checkQueue.current.splice(0, batchSize);
+    if (proxies.length === 0) return;
 
     activeChecks.current++;
-    const key = getProxyKey(proxy);
-
+    
     setProxyStatusMap(prev => {
-        if (prev[key]?.status === 'active' || prev[key]?.status === 'dead') return prev; 
-        return { ...prev, [key]: { status: 'loading', latency: 0 } };
+        const next = { ...prev };
+        let changed = false;
+        proxies.forEach(p => {
+            const key = getProxyKey(p);
+            if (next[key]?.status !== 'active' && next[key]?.status !== 'dead') {
+                next[key] = { status: 'loading', latency: 0 };
+                changed = true;
+            }
+        });
+        return changed ? next : prev;
     });
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
     const start = performance.now();
 
     try {
-        const res = await fetch(`${CONFIG.apiCheckUrl}${proxy.ip}:${proxy.port}`, { signal: controller.signal });
+        const ipList = proxies.map(p => `${p.ip}:${p.port}`).join(',');
+        const res = await fetch(`${CONFIG.apiCheckUrl}${ipList}`, { signal: controller.signal });
         clearTimeout(timeoutId);
         const data = await res.json();
         
-        const isActive = (Array.isArray(data) ? data[0] : data)?.proxyip === true;
-        const latency = Math.floor(performance.now() - start);
+        const batchLatency = Math.floor(performance.now() - start);
+        const results = Array.isArray(data) ? data : [data];
 
         if (mountedRef.current) {
-            setProxyStatusMap(prev => ({ 
-                ...prev, 
-                [key]: { status: isActive ? 'active' : 'dead', latency: isActive ? latency : 0 } 
-            }));
+            setProxyStatusMap(prev => { 
+                const next = { ...prev };
+                proxies.forEach((p, idx) => {
+                    const result = results[idx];
+                    const key = getProxyKey(p);
+                    
+                    if (!result) {
+                         next[key] = { status: 'dead', latency: 0 };
+                         return;
+                    }
+
+                    const isActive = result?.proxyip === true;
+                    const latency = result?.latency || batchLatency;
+
+                    next[key] = { status: isActive ? 'active' : 'dead', latency: isActive ? latency : 0 };
+                });
+                return next;
+            });
         }
     } catch {
         if (mountedRef.current) {
-            setProxyStatusMap(prev => ({ ...prev, [key]: { status: 'dead', latency: 0 } }));
+            setProxyStatusMap(prev => {
+                const next = { ...prev };
+                proxies.forEach(p => {
+                     next[getProxyKey(p)] = { status: 'dead', latency: 0 };
+                });
+                return next;
+            });
         }
     } finally {
         activeChecks.current--;

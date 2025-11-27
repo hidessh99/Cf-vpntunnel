@@ -10,7 +10,7 @@ export const BUG_LIST = ["dev.appsflyer.com","go.appsflyer.com","cdn.customlinks
 
 export const CONFIG = {
   proxyListUrl: "https://raw.githubusercontent.com/bexcdx/proxyip/refs/heads/main/proxyip.json",
-  apiCheckUrl: "https://id1.foolvpn.me/api/v1/check?ip=",
+  apiCheckUrl: "https://proxyip-check.bexcodex.xyz/",
   pathTemplate: "/{ip}-{port}",
   webName: "BexCodex"
 };
