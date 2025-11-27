@@ -65,14 +65,14 @@ proxies:
       tls: ${p.tls}
       skip-cert-verify: true
       host: ${p.wsHost}
-      path: "${p.wsPath}"
+      path: ${p.wsPath}
       mux: false
 `;
 
       if (p.type !== 'ss') {
           if (p.network === 'ws') entry += `    network: ws
     ws-opts:
-      path: "${p.wsPath}"
+      path: ${p.wsPath}
       headers:
         Host: ${p.wsHost}
 `;
@@ -121,7 +121,7 @@ export function generateSingleVlessLink(id: string, svr: string, port: number, s
   servername: ${sni}
   skip-cert-verify: true
   ws-opts:
-    path: "${decodeURIComponent(path)}"
+    path: ${decodeURIComponent(path)}
     headers:
       Host: ${host}`;
     return { url: u, clash: c };
@@ -138,7 +138,7 @@ export function generateSingleTrojanLink(pw: string, svr: string, port: number, 
   sni: ${sni}
   skip-cert-verify: true
   ws-opts:
-    path: "${decodeURIComponent(path)}"
+    path: ${decodeURIComponent(path)}
     headers:
       Host: ${host}`;
     return { url: u, clash: c };
@@ -159,7 +159,7 @@ export function generateSingleSSLink(pw: string, svr: string, port: number, sec:
     tls: ${sec==='tls'}
     skip-cert-verify: true
     host: ${host}
-    path: "${decodeURIComponent(path)}"
+    path: ${decodeURIComponent(path)}
     mux: false`;
     return { url: u, clash: c };
 }
