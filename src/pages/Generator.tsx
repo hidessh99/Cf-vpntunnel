@@ -439,7 +439,7 @@ const Generator: React.FC = () => {
                          <div className="text-[10px] text-slate-500 mb-1">Live Status</div>
                          <div>
                              {currentStatus.status === 'loading' && <span className="text-xs text-yellow-500 font-bold"><i className="fas fa-spinner fa-spin mr-1"></i> Checking</span>}
-                             {currentStatus.status === 'active' && <span className="text-xs text-emerald-400 font-bold"><i className="fas fa-check-circle mr-1"></i> Active ({currentStatus.latency}ms)</span>}
+                             {currentStatus.status === 'active' && <span className="text-xs text-emerald-400 font-bold"><i className="fas fa-check-circle mr-1"></i> Active ({currentStatus.latency})</span>}
                              {currentStatus.status === 'dead' && <span className="text-xs text-rose-400 font-bold"><i className="fas fa-times-circle mr-1"></i> Dead</span>}
                              {currentStatus.status === 'unknown' && <span className="text-xs text-slate-500 font-bold">Waiting Check...</span>}
                          </div>
