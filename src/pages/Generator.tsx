@@ -324,42 +324,69 @@ const Generator: React.FC = () => {
   const finalAlias = manualAlias !== null ? manualAlias : defaultAlias;
 
   return (
-    <div className="p-4 lg:p-6 max-w-7xl mx-auto w-full h-full flex flex-col">
+    <div className="p-4 lg:p-8 max-w-7xl mx-auto w-full h-full flex flex-col gap-4">
+      <div className="gento-card rounded-3xl p-5 lg:p-6 flex flex-col gap-3 overflow-hidden">
+        <div className="absolute -left-10 -top-16 w-48 h-48 bg-purple-600/20 rounded-full blur-3xl" />
+        <div className="absolute -right-8 -bottom-16 w-48 h-48 bg-cyan-500/15 rounded-full blur-3xl" />
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 relative z-10">
+          <div className="space-y-2">
+            <div className="pill inline-flex items-center gap-2 text-cyan-200/80 border-cyan-500/30 bg-cyan-500/10">
+              <i className="fas fa-shield-alt text-[11px]"></i> Optimized Dark Experience
+            </div>
+            <div>
+              <p className="text-sm text-slate-400">Proxy Generator</p>
+              <h2 className="text-2xl lg:text-3xl font-bold text-white tracking-tight">Modern, ringan, dan siap pakai</h2>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-2 text-xs text-slate-300 backdrop-blur">
+              <p className="text-[10px] uppercase tracking-wide text-slate-500">Total Proxies</p>
+              <p className="text-lg font-bold text-white">{filteredList.length || proxyList.length || 0}</p>
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-2xl px-4 py-2 text-xs text-slate-300 backdrop-blur">
+              <p className="text-[10px] uppercase tracking-wide text-slate-500">Negara Tersedia</p>
+              <p className="text-lg font-bold text-white">{availableCountries.length || '-'}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:h-full lg:min-h-0">
 
         <div className={`lg:col-span-5 flex flex-col lg:h-full lg:min-h-0 transition-all duration-300 ${mobileView === 'detail' ? 'hidden lg:flex' : 'flex'}`}>
           <div className="gento-card rounded-3xl flex flex-col h-full overflow-hidden">
-            
-            <div className="p-4 border-b border-white/5 space-y-3 bg-slate-900/40 flex-none">
-               <div className="flex gap-2">
+
+            <div className="p-5 border-b border-white/5 space-y-4 bg-gradient-to-br from-white/5 via-transparent to-white/0 flex-none">
+               <div className="flex gap-2 items-center">
                   <div className="relative flex-grow">
                     <i className="fas fa-search absolute left-3 top-3 text-slate-500 text-xs"></i>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="gento-input w-full rounded-xl pl-9 pr-3 py-2.5 text-sm placeholder-slate-500"
+                      className="gento-input w-full rounded-xl pl-9 pr-3 py-3 text-sm placeholder-slate-500"
                       placeholder="Cari Provider..."
                     />
                   </div>
-                  
-                  <button onClick={() => setCustomUrlMode(!customUrlMode)} className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all flex-none ${customUrlMode ? 'bg-purple-600 text-white border-purple-500' : 'bg-purple-600/20 hover:bg-purple-600/40 text-purple-400 border-purple-500/30'}`}> 
+
+                  <button onClick={() => setCustomUrlMode(!customUrlMode)} className={`w-11 h-11 rounded-2xl border flex items-center justify-center transition-all flex-none ${customUrlMode ? 'bg-purple-600 text-white border-purple-400 shadow-lg shadow-purple-500/30' : 'bg-white/5 hover:bg-white/10 text-purple-200 border-white/10'}`}>
                     <i className="fas fa-link"></i>
                   </button>
-                  <button onClick={() => loadProxies(customUrl)} className="w-10 h-10 rounded-xl bg-purple-600/20 hover:bg-purple-600/40 border border-purple-500/30 text-purple-400 flex items-center justify-center transition-all flex-none">
+                  <button onClick={() => loadProxies(customUrl)} className="w-11 h-11 rounded-2xl bg-gradient-to-br from-purple-600 to-cyan-500 border border-white/10 text-white flex items-center justify-center transition-all flex-none shadow-lg shadow-cyan-500/30 active:scale-95">
                     <i className="fas fa-sync-alt"></i>
                   </button>
                </div>
 
                {customUrlMode && (
-                   <div className="flex gap-2 animate-fade-in">
-                       <input 
-                         type="text" 
-                         value={customUrl} 
+                   <div className="flex gap-2 animate-fade-in items-center">
+                       <input
+                         type="text"
+                         value={customUrl}
                          onChange={(e) => setCustomUrl(e.target.value)}
-                         className="gento-input flex-grow rounded-xl px-3 py-2 text-xs"
+                         className="gento-input flex-grow rounded-xl px-3 py-3 text-xs"
                        />
-                       <button onClick={() => loadProxies(customUrl)} className="bg-purple-600 text-white px-3 rounded-xl text-xs font-bold">Load</button>
+                       <button onClick={() => loadProxies(customUrl)} className="bg-gradient-to-r from-purple-600 to-cyan-500 text-white px-4 rounded-xl text-xs font-bold shadow-lg shadow-purple-500/30">Load</button>
                    </div>
                )}
 
@@ -367,10 +394,10 @@ const Generator: React.FC = () => {
                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none z-10">
                        <i className="fas fa-globe text-xs"></i>
                    </div>
-                   <select 
-                     value={selectedCountry} 
+                   <select
+                     value={selectedCountry}
                      onChange={(e) => setSelectedCountry(e.target.value)}
-                     className="w-full bg-slate-800/50 border border-white/5 hover:border-purple-500/30 text-slate-300 rounded-xl pl-10 pr-8 py-2.5 text-xs font-bold appearance-none cursor-pointer focus:outline-none focus:border-purple-500/50 transition-all shadow-sm"
+                     className="w-full bg-slate-900/70 border border-white/5 hover:border-purple-500/30 text-slate-200 rounded-xl pl-10 pr-8 py-3 text-xs font-bold appearance-none cursor-pointer focus:outline-none focus:border-purple-500/50 transition-all shadow-sm"
                    >
                        {availableCountries.map((c) => (
                            <option key={c} value={c} className="bg-slate-900 text-slate-300 py-2">{c === 'All' ? 'Semua Negara' : c}</option>
@@ -382,15 +409,19 @@ const Generator: React.FC = () => {
                </div>
             </div>
 
-            <div className="relative flex-grow flex flex-col overflow-hidden bg-slate-900/20">
+            <div className="relative flex-grow flex flex-col overflow-hidden bg-slate-950/40">
                 <div className="flex-grow overflow-y-auto p-3 space-y-2">
                     {displayedProxies.map((p, idx) => {
                         const key = getProxyKey(p);
                         const statusInfo = proxyStatusMap[key] || { status: 'unknown', latency: 0 };
                         const isSelected = selectedProxy && getProxyKey(selectedProxy) === key;
-                        
+
                         return (
-                            <div key={idx} onClick={() => handleSelectProxy(p)} className={`p-3 rounded-xl transition-all cursor-pointer border flex justify-between items-center group active:scale-[0.98] ${isSelected ? 'bg-purple-600/10 border-purple-500/30' : 'bg-white/5 border-white/5 hover:bg-white/10'}`}>
+                            <div
+                              key={idx}
+                              onClick={() => handleSelectProxy(p)}
+                              className={`p-3 rounded-2xl transition-all cursor-pointer border flex justify-between items-center group active:scale-[0.98] hover:-translate-y-0.5 ${isSelected ? 'bg-gradient-to-r from-purple-700/30 via-purple-500/10 to-cyan-500/5 border-purple-500/40 shadow-lg shadow-purple-900/30' : 'bg-white/5 border-white/5 hover:bg-white/10'}`}
+                            >
                                  <div className="flex items-center gap-3 overflow-hidden flex-grow min-w-0">
                                      <div className={`w-10 h-10 rounded-lg flex flex-col items-center justify-center text-[9px] font-bold border flex-shrink-0 transition-colors ${isSelected ? 'bg-purple-600 text-white border-purple-400' : 'bg-black/30 text-slate-400 border-white/5'}`}>
                                         <span>{p.country}</span>
