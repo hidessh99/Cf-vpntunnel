@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,45 +10,92 @@ html, body, #root {
     margin: 0;
     padding: 0;
 }
+
 body {
-    background-color: #020617;
+    background-color: #050712;
     color: #e2e8f0;
     -webkit-tap-highlight-color: transparent;
+    font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
+
 .ambient-light {
     position: fixed;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background: radial-gradient(circle at 10% 20%, rgba(88, 28, 135, 0.4) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(13, 148, 136, 0.3) 0%, transparent 40%);
+    background:
+        radial-gradient(circle at 15% 20%, rgba(124, 58, 237, 0.35), transparent 35%),
+        radial-gradient(circle at 85% 20%, rgba(14, 165, 233, 0.28), transparent 35%),
+        radial-gradient(circle at 30% 80%, rgba(16, 185, 129, 0.24), transparent 35%),
+        linear-gradient(145deg, rgba(15, 23, 42, 0.85), rgba(2, 6, 23, 0.95));
+    filter: blur(2px);
     transform: translateZ(0);
 }
-.gento-card {
-    background: rgba(15, 23, 42, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+
+.glass-surface {
+    background: linear-gradient(135deg, rgba(17, 24, 39, 0.8), rgba(2, 6, 23, 0.9));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+        0 20px 80px rgba(0, 0, 0, 0.35),
+        0 1px 0 rgba(255, 255, 255, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
+
+.gento-card {
+    background: linear-gradient(135deg, rgba(17, 24, 39, 0.8), rgba(2, 6, 23, 0.9));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+        0 20px 80px rgba(0, 0, 0, 0.35),
+        0 1px 0 rgba(255, 255, 255, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    border-radius: 28px;
+    position: relative;
+    overflow: hidden;
+}
+
+.gento-card::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: 26px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+    pointer-events: none;
+}
+
 .gento-input {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: border-color 0.2s, background-color 0.2s;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
     color: white;
 }
+
 .gento-input:focus {
     border-color: #a855f7;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(168, 85, 247, 0.06);
     outline: none;
+    box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15);
 }
+
+.pill {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 9999px;
+    padding: 6px 10px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-thumb { background: rgba(51, 65, 85, 0.8); border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #a855f7, #22d3ee); border-radius: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
 
 .nav-item { transition: all 0.3s ease; }
 .nav-item.active {
-    background: linear-gradient(to right, #9333ea, #db2777);
+    background: linear-gradient(to right, #8b5cf6, #06b6d4);
     color: white;
-    box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
+    box-shadow: 0 10px 40px rgba(6, 182, 212, 0.3);
     border: none;
-    font-weight: 600;
+    font-weight: 700;
 }
-.nav-item:not(.active):hover { color: white; background: rgba(255,255,255,0.05); }
+.nav-item:not(.active):hover { color: white; background: rgba(255,255,255,0.07); }
