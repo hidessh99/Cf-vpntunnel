@@ -1,7 +1,7 @@
 export const MAIN_DOMAINS = [
   "antiquewhite.qzz.io", "bisque.qzz.io", "cornsilk.qzz.io", "floralwhite.qzz.io", 
   "fuchsia.qzz.io", "ivory.qzz.io", "midnightblue.qzz.io", 
-  "sandybrown.qzz.io", "seashell.qzz.io", "thistle.qzz.io", "blueivy.qzz.io", 
+  "sandybrown.qzz.io", "seashell.qzz.io", "thistle.qzz.io", "blueivy.qzz.io", "lufeng.my.id", 
   "cranberry.qzz.io", "gainsboro.qzz.io", "gulfblue.qzz.io", "heavenlyblue.qzz.io", 
   "iceberg.qzz.io", "purplelily.qzz.io", "tronblue.qzz.io", "vermilion.qzz.io"
 ];
