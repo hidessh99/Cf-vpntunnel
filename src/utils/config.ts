@@ -9,5 +9,5 @@ export const CONFIG = {
   proxyListUrl: "https://raw.githubusercontent.com/bexcdx/proxyip/refs/heads/main/proxyip.json",
   apiCheckUrl: "https://proxyip-check.bexcodex.xyz/",
   pathTemplate: "/{ip}-{port}",
-  webName: "LuFeng"
+  webName: "LuFeng VPN"
 };
